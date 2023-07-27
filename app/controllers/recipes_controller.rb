@@ -8,7 +8,7 @@ class RecipesController < ApplicationController
     json = doc.css('script[type="application/ld+json"]')
     parsed = JSON.parse(json.text)
     
-    article = parsed_data["@graph"].find { |item| item["@type"] == "Article" }
+    article = parsed["@graph"].find { |item| item["@type"] == "Article" }
 
     if article
       title = article["headline"]
@@ -16,7 +16,7 @@ class RecipesController < ApplicationController
       image = article["image"]["thumbnailUrl"]
     
       
-      recipe = parsed_data["@graph"].find { |item| item["@type"] == "Recipe" }
+      recipe = parsed["@graph"].find { |item| item["@type"] == "Recipe" }
     
       if recipe
         description = recipe["description"]
@@ -29,20 +29,17 @@ class RecipesController < ApplicationController
 
       raw_recipe = {
         "title" => title,
-        "author" => author,
+        "chef" => chef,
         "image" => image,
         "description" => description,
         "ingredients" => ingredients,
-        "instructions" => instructions
+        "instructions" => instructions,
+        "url" => url
       }
-
-      return raw_recipe
 
     end
 
     render json: {raw_recipe: raw_recipe }
-  rescue StandardError => e
-    render json: { error: e.message }, status: :unprocessable_entity
 
   end
 
