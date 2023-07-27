@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  
+  ### Recipes
+  post "/fetch_recipe", to "recipes#fetch_recipe"
 
-  # Defines the root path route ("/")
-  # root "articles#index"
 end
