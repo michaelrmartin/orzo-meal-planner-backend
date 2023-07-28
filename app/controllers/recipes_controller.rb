@@ -13,13 +13,13 @@ class RecipesController < ApplicationController
     if article
       title = article["headline"]
       chef = article["author"]["name"]
-      image = article["image"]["thumbnailUrl"]
+      description = article["description"]
     
       
       recipe = parsed["@graph"].find { |item| item["@type"] == "Recipe" }
     
       if recipe
-        description = recipe["description"]
+        image = recipe["image"][0]
         ingredients = recipe["recipeIngredient"]
         instructions = recipe["recipeInstructions"].map { |step| step["text"] }
       else
