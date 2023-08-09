@@ -19,21 +19,27 @@ class RecipesController < ApplicationController
       recipe = parsed["@graph"].find { |item| item["@type"] == "Recipe" }
     
       if recipe
-        image = recipe["image"][0]
+        images = recipe["image"]
         ingredients = recipe["recipeIngredient"]
         instructions = recipe["recipeInstructions"].map { |step| step["text"] }
+
+        cleaned_instructions = instructions.map do |step|
+          step.gsub(/[^0-9A-Za-z\p{Punct}\s]/, '')
+        end
+
       else
+        images = []
         ingredients = []
-        instructions = []
+        cleaned_instructions = []
       end
 
       raw_recipe = {
         "title" => title,
         "chef" => chef,
-        "image" => image,
+        "images" => images,
         "description" => description,
         "ingredients" => ingredients,
-        "instructions" => instructions,
+        "instructions" => cleaned_instructions,
         "url" => url
       }
 
