@@ -18,7 +18,13 @@ module BasicRecipeParser
 
     images = recipe["image"]
     ingredients = recipe["recipeIngredient"]
-    instructions = recipe["recipeInstructions"].map { |step| step["text"] }
+    
+    if recipe["recipeInstructions"].length == 1
+      instructions = recipe["recipeInstructions"][0]["text"].split("&nbsp;")
+      instructions = instructions.map { |instruction| instruction.sub(/^\d+\.\s*/, "").strip }.reject(&:empty?)
+    else
+      instructions = recipe["recipeInstructions"].map { |step| step["text"] }
+    end
      
     cleaned_ingredients = ingredients.map do |ingredient|
       ingredient.gsub(/[^0-9A-Za-z\p{Punct}\s]/, ' ')
@@ -38,7 +44,7 @@ module BasicRecipeParser
     }
 
     raw_recipe
-    
+
   end
 
 
