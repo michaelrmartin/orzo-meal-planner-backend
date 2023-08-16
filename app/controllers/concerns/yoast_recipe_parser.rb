@@ -1,19 +1,22 @@
-module RecipeParser
+module YoastRecipeParser
   extend ActiveSupport::Concern
 
-  def parse_recipe(parsed_data)
+  def parse_yoast_recipe(doc)
     raw_recipe = nil
 
+    json = doc.css('script[type="application/ld+json"]')
+    parsed_data = JSON.parse(json.text)
+
     article = parsed_data["@graph"].find { |item| item["@type"] == "Article" }
-    
+
     if article
       title = article["headline"]
       chef = article["author"]["name"]
-      description = article["description"]
       
       recipe = parsed_data["@graph"].find { |item| item["@type"] == "Recipe" }
-
+      
       if recipe
+        description = recipe["description"]
         images = recipe["image"]
         ingredients = recipe["recipeIngredient"]
         instructions = recipe["recipeInstructions"].map { |step| step["text"] }
