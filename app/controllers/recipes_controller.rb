@@ -17,7 +17,7 @@ class RecipesController < ApplicationController
       if js.length == 1
         raw_recipe = parse_basic_recipe(doc)
       else
-        render json: {message: "other schema"}
+        render json: {message: "Invalid Schema"}
       end
     end
 

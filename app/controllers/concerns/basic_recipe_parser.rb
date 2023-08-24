@@ -2,11 +2,11 @@ module BasicRecipeParser
   extend ActiveSupport::Concern
   
   def parse_basic_recipe(doc)
+    
     raw_recipe = nil
 
     json = doc.css('script[type="application/ld+json"]')
     parsed_data = JSON.parse(json.text)
-
 
     parsed_data.class != Array ? parsed_data = [parsed_data] : parsed_data = parsed_data
 
