@@ -25,4 +25,34 @@ class RecipesController < ApplicationController
 
   end
 
+  def create
+    pp params
+    # recipe = Recipe.new(recipe_params)
+
+    # if recipe.save
+    #   @recipe = recipe  
+      
+      
+
+
+    #   render json: recipe.as_json
+
+    else
+      render json: {errors: recipe.errors.full_messages}
+    end
+
+  end
+
+  # def recipe_params
+  #   params.require(:recipe).permit(
+  #     :user_id,
+  #     :title,
+  #     :chef,
+  #     :description,
+  #     :image_url,
+  #     :prep_time,
+  #     :cook_time
+  #   )
+  # end
+
 end
