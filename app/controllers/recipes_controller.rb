@@ -26,8 +26,6 @@ class RecipesController < ApplicationController
   end
 
   def create
-    p params
-    puts params
     pp params
     # recipe = Recipe.new(recipe_params)
 

@@ -20,7 +20,10 @@ module YoastRecipeParser
     end
 
     description = recipe["description"].gsub(/[^0-9A-Za-z\p{Punct}\s]/, ' ')
-    images = recipe["image"]
+    prep_time = recipe["prepTime"]
+    cook_time = recipe["cookTime"]
+    
+    image = recipe["image"][0]
     ingredients = recipe["recipeIngredient"]
 
     if recipe["recipeInstructions"].length == 1
@@ -41,7 +44,9 @@ module YoastRecipeParser
     raw_recipe = {
       "title" => title,
       "chef" => chef,
-      "images" => images,
+      "prep_time" => prep_time,
+      "cook_time" => cook_time,
+      "image" => image,
       "description" => description,
       "ingredients" => cleaned_ingredients,
       "instructions" => cleaned_instructions,

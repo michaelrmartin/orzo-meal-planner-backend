@@ -15,8 +15,10 @@ module BasicRecipeParser
     title = recipe["name"]
     chef = recipe["author"]["name"]
     description = recipe["description"].gsub(/[^0-9A-Za-z\p{Punct}\s]/, ' ')
+    prep_time = recipe["prepTime"]
+    cook_time = recipe["cookTime"]
 
-    images = recipe["image"]
+    image = recipe["image"][0]
     ingredients = recipe["recipeIngredient"]
     
     if recipe["recipeInstructions"].length == 1
@@ -37,7 +39,9 @@ module BasicRecipeParser
     raw_recipe = {
       "title" => title,
       "chef" => chef,
-      "images" => images,
+      "prep_time" => prep_time,
+      "cook_time" => cook_time,
+      "image" => image,
       "description" => description,
       "ingredients" => cleaned_ingredients,
       "instructions" => cleaned_instructions,
