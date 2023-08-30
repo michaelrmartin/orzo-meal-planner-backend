@@ -20,9 +20,19 @@ module YoastRecipeParser
     end
 
     description = recipe["description"].gsub(/[^0-9A-Za-z\p{Punct}\s]/, ' ')
-    prep_time = recipe["prepTime"]
-    cook_time = recipe["cookTime"]
+
+    if recipe["prepTime"]
+      prep_time = extract_time_in_minutes(recipe["prepTime"])
+    else
+      prep_time = nil
+    end
     
+    if recipe["cookTime"]
+      cook_time = extract_time_in_minutes(recipe["cookTime"])
+    else
+      cook_time = nil
+    end
+
     image = recipe["image"][0]
     ingredients = recipe["recipeIngredient"]
 
@@ -54,6 +64,15 @@ module YoastRecipeParser
 
     raw_recipe
 
+  end
+
+  def extract_time_in_minutes(time_string)
+    duration_match = time_string.match(/P(?:T(?:(\d*)H)?(?:(\d*)M)?)?/)
+  
+    hours = duration_match[1].to_i
+    minutes = duration_match[2].to_i
+  
+    total_minutes = (hours * 60) + minutes
   end
 
 end
