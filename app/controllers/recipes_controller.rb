@@ -27,19 +27,22 @@ class RecipesController < ApplicationController
 
   def create
     pp params
-    # recipe = Recipe.new(recipe_params)
+    recipe = Recipe.new(
+      user_id: 1,
+      title: params[:title],
+      chef: params[:chef],
+      description: params[:description],
+      image_url: params[:image],
+      cook_time: params[:cook_time],
+      prep_time: params[:prep_time]
+    )
   
-    # if recipe.save
-    #   @recipe = recipe  
-      
-      
-  
-  
-    #   render json: recipe.as_json
-  
-    # else
-    #   render json: {errors: recipe.errors.full_messages}
-    # end
+    if recipe.save
+      @recipe = recipe  
+      render json: recipe.as_json
+    else
+      render json: {errors: recipe.errors.full_messages}
+    end
   
   end
   
