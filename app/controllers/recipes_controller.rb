@@ -26,7 +26,9 @@ class RecipesController < ApplicationController
   end
 
   def create
-    pp params
+    ingredients = params[:parsedIngredients]
+    instructions = params[:instructions]
+    
     recipe = Recipe.new(
       user_id: 1,
       title: params[:title],
@@ -36,7 +38,7 @@ class RecipesController < ApplicationController
       cook_time: params[:cook_time],
       prep_time: params[:prep_time]
     )
-  
+    
     if recipe.save
       @recipe = recipe  
       render json: recipe.as_json
