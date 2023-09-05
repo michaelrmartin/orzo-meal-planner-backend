@@ -26,7 +26,7 @@ class RecipesController < ApplicationController
   end
 
   def create
-
+    pp params
     recipe = Recipe.new(
       user_id: 1,
       title: params[:title],
@@ -41,23 +41,29 @@ class RecipesController < ApplicationController
       @recipe = recipe
     end
 
-    ingredient = Ingredient.new(
-      recipe_id: @recipe.id,
-      quantity1: params[:parsedIngredients][1][0][:quantity],
-      quantity2: params[:parsedIngredients][1][0][:quantity2],
-      name: params[:parsedIngredients][1][0][:name],
-      description: params[:parsedIngredients][1][0][:description],
-      unit_of_measure: params[:parsedIngredients][1][0][:unit_of_measure],
-      is_group_header: params[:parsedIngredients][1][0][:is_group_header],
-      unit_of_measure_id: params[:parsedIngredients][1][0][:unit_of_measure_id]
-    )
+    index = 0
+    while index < params[:parsedIngredients].length do
 
-    # if ingredient.save
-    #   @recipe = recipe  
-    #   render json: recipe.as_json
-    # else
-    #   render json: {errors: recipe.errors.full_messages}
-    # end
+      ingredient = Ingredient.create!(
+        recipe_id: @recipe.id,
+        quantity1: params[:parsedIngredients][index][0][:quantity],
+        quantity2: params[:parsedIngredients][index][0][:quantity2],
+        description: params[:parsedIngredients][index][0][:description],
+        unit_of_measure: params[:parsedIngredients][index][0][:unitOfMeasure],
+        is_group_header: params[:parsedIngredients][index][0][:isGroupHeader],
+        unit_of_measure_id: params[:parsedIngredients][index][0][:unitOfMeasureID]
+      )
+
+    index += 1
+      
+    end
+
+    if @recipe
+      render json: {recipe: recipe.as_json}
+    else
+      render json: {errors: recipe.errors.full_messages}, status: 422
+    end
+
   
   end
   
