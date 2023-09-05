@@ -28,6 +28,9 @@ class RecipesController < ApplicationController
   def create
     ingredients = params[:parsedIngredients]
     instructions = params[:instructions]
+    test_ingredient = ingredients[0]
+    puts test_ingredient
+
     
     recipe = Recipe.new(
       user_id: 1,
@@ -39,6 +42,19 @@ class RecipesController < ApplicationController
       prep_time: params[:prep_time]
     )
     
+
+    ingredient = Ingredient.new(
+      recipe_id: recipe.id,
+      quantity1: test_ingredient[:quantity],
+      quantity2: test_ingredient[:quantity2],
+      name: test_ingredient[:name],
+      description: test_ingredient[:description],
+      unit_of_measure:test_ingredient[:unit_of_measure]
+    )
+
+    ingredient.save
+
+
     if recipe.save
       @recipe = recipe  
       render json: recipe.as_json
