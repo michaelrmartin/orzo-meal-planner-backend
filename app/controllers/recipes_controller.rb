@@ -26,12 +26,7 @@ class RecipesController < ApplicationController
   end
 
   def create
-    ingredients = params[:parsedIngredients]
-    instructions = params[:instructions]
-    test_ingredient = ingredients[0]
-    puts test_ingredient
 
-    
     recipe = Recipe.new(
       user_id: 1,
       title: params[:title],
@@ -42,25 +37,27 @@ class RecipesController < ApplicationController
       prep_time: params[:prep_time]
     )
     
+    if recipe.save
+      @recipe = recipe
+    end
 
     ingredient = Ingredient.new(
-      recipe_id: recipe.id,
-      quantity1: test_ingredient[:quantity],
-      quantity2: test_ingredient[:quantity2],
-      name: test_ingredient[:name],
-      description: test_ingredient[:description],
-      unit_of_measure:test_ingredient[:unit_of_measure]
+      recipe_id: @recipe.id,
+      quantity1: params[:parsedIngredients][1][0][:quantity],
+      quantity2: params[:parsedIngredients][1][0][:quantity2],
+      name: params[:parsedIngredients][1][0][:name],
+      description: params[:parsedIngredients][1][0][:description],
+      unit_of_measure: params[:parsedIngredients][1][0][:unit_of_measure],
+      is_group_header: params[:parsedIngredients][1][0][:is_group_header],
+      unit_of_measure_id: params[:parsedIngredients][1][0][:unit_of_measure_id]
     )
 
-    ingredient.save
-
-
-    if recipe.save
-      @recipe = recipe  
-      render json: recipe.as_json
-    else
-      render json: {errors: recipe.errors.full_messages}
-    end
+    # if ingredient.save
+    #   @recipe = recipe  
+    #   render json: recipe.as_json
+    # else
+    #   render json: {errors: recipe.errors.full_messages}
+    # end
   
   end
   
