@@ -5,4 +5,6 @@ Rails.application.routes.draw do
   
   resources :recipes
 
+  resources :ingredients, only: %i[index show]
+
 end
