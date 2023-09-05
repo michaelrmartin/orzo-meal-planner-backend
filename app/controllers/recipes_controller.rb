@@ -26,7 +26,6 @@ class RecipesController < ApplicationController
   end
 
   def create
-    pp params
     recipe = Recipe.new(
       user_id: 1,
       title: params[:title],
