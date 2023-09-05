@@ -40,20 +40,33 @@ class RecipesController < ApplicationController
       @recipe = recipe
     end
 
-    index = 0
-    while index < params[:parsedIngredients].length do
+    i = 0
+    while i < params[:parsedIngredients].length do
 
       ingredient = Ingredient.create!(
         recipe_id: @recipe.id,
-        quantity1: params[:parsedIngredients][index][0][:quantity],
-        quantity2: params[:parsedIngredients][index][0][:quantity2],
-        description: params[:parsedIngredients][index][0][:description],
-        unit_of_measure: params[:parsedIngredients][index][0][:unitOfMeasure],
-        is_group_header: params[:parsedIngredients][index][0][:isGroupHeader],
-        unit_of_measure_id: params[:parsedIngredients][index][0][:unitOfMeasureID]
+        quantity1: params[:parsedIngredients][i][0][:quantity],
+        quantity2: params[:parsedIngredients][i][0][:quantity2],
+        description: params[:parsedIngredients][i][0][:description],
+        unit_of_measure: params[:parsedIngredients][i][0][:unitOfMeasure],
+        is_group_header: params[:parsedIngredients][i][0][:isGroupHeader],
+        unit_of_measure_id: params[:parsedIngredients][i][0][:unitOfMeasureID]
       )
 
     index += 1
+      
+    end
+
+    j = 0
+    while j < params[:instructions].length do
+      
+      instruction = Instruction.create!(
+        recipe_id: @recipe.id,
+        step_number: (j + 1),
+        step: params[:instructions][j]
+      )
+      
+      j += 1
       
     end
 
