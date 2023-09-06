@@ -53,7 +53,7 @@ class RecipesController < ApplicationController
         unit_of_measure_id: params[:parsedIngredients][i][0][:unitOfMeasureID]
       )
 
-    index += 1
+    i += 1
       
     end
 
